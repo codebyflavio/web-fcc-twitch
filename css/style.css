@@ -1,0 +1,12 @@
+.container{
+	height: 100vh;
+}
+
+.footer-copyright{
+	position: fixed;
+    bottom: 20px;
+	text-align: right;
+	color: black;
+	font-size: 17px;
+	margin-left: 40%;
+}
