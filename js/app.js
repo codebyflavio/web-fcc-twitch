@@ -1,69 +1,94 @@
-$(document).ready(init);
+$(document).ready( init );
 
-function init(){
+function init()
+{
 
-	var stream = {
-		// online: {
-		// 	api: 'https://api.twitch.tv/kraken/channel/' + stream + '?callback=?',
-		// 	logo: data.stream.channel.logo,
-		// 	displayName: data.stream.channel.display_name,
-		// 	viewers: data.stream.viewers,
-		// 	game: data.stream.channel.game.toUpperCase(),
-		// 	status: data.stream.channel.status,
-		// 	followers: data.stream.channel.followers,
-		// 	language: data.stream.channel.language.toUpperCase(),
-		// 	views: data.stream.channel.views,
-		// 	channelUrl: data.stream.channel.url,
-		// },
-		streamers: ['freecodecamp', 'summit1g', 'tsm_dyrus', 'flosd', 'wingsofdeath']
-	};
+	var streamers = ['freecodecamp', 'summit1g', 'tsm_dyrus', 'flosd', 'wingsofdeath'];
 
-	function ajaxCall(stream){
-		var api = 'https://api.twitch.tv/kraken/streams/' + stream + '?callback=?';
+	function ajaxCall( api, streamer ){
 
 		$.ajax({
-			url: api,
+			url: 'https://api.twitch.tv/kraken/' + api + streamer + '?callback=?',
     		dataType: 'jsonp',
     		type: 'POST',
-			success: function(data){
-				console.log(data);
-				
+			success: function( data ){
+				if(api === 'streams/'){
+					if(data.stream === null){
+						return ajaxCall( 'channels/', streamer);
+					}	
+						var online = {
+							logo: data.stream.channel.logo,
+							displayName: data.stream.channel.display_name,
+							viewers: data.stream.viewers,
+							game: data.stream.channel.game.toUpperCase(),
+							status: data.stream.channel.status,
+							followers: data.stream.channel.followers,
+							language: data.stream.channel.language.toUpperCase(),
+							views: data.stream.channel.views,
+							channelUrl: data.stream.channel.url
+						};
+						var htmlOnline = 
+						'<li class="collection-item avatar row">' +
+						'<img src="' + online.logo + '" alt="" class="preview col s2">' +
+						'<div class="content-row col s5">' +
+						'<span id="title">' + online.displayName + '</span>' +
+						'<p><b>Viewers: </b>' + online.viewers + '</p>' +
+						'<p><b>Game: </b>' + online.game + '</p>' +
+						'<p class="status truncate">' + online.status + '</p>' +
+						'</div>' +
+						'<div class="content-row second-content col s5">' +
+						'<p><b>Followers: </b>' + online.followers + '</p>' +
+						'<p><b>Language: </b>' + online.language + '</p>' +
+						'<p><b>Views: </b>' + online.views + '</p>' +
+						'<a href="' + online.channelUrl + '" class="secondary-content"><i class="online material-icons">play_circle_filled</i></a>' +
+						'</div>' +
+						'</li>';
 
-				// if(!data.stream){
-				// 	return false;
-				// }else{
-				// 	var html = 
-				// 	'<li class="collection-item avatar row">' +
-				// 	'<img src="' + logo + '" alt="" class="preview col s2">' +
-				// 	'<div class="content-row col s5">' +
-				// 	'<span id="title">' + displayName + '</span>' +
-				// 	'<p><b>Viwers: </b>' + viewers + '</p>' +
-				// 	'<p><b>Game: </b>' + game + '</p>' +
-				// 	'<p class="status truncate">' + status + '</p>' +
-				// 	'</div>' +
-				// 	'<div class="content-row second-content col s5">' +
-				// 	'<p><b>Followers: </b>' + followers + '</p>' +
-				// 	'<p><b>Language: </b>' + language + '</p>' +
-				// 	'<p><b>Views: </b>' + views + '</p>' +
-				// 	'<a href="' + channelUrl + '" class="secondary-content"><i class="online material-icons">play_circle_filled</i></a>' +
-				// 	'</div>' +
-				// 	'</li>'
-				// }
-				// $('.collection').append(html);
-				// return true;
+						$('.collection').append(htmlOnline);
+				}else{
+					var offline = {
+						logo: data.logo,
+						displayName: data.display_name,
+						game: data.game.toUpperCase(),
+						status: data.status,
+						followers: data.followers,
+						language: data.language.toUpperCase(),
+						views: data.views,
+						channelUrl: data.url
+					};
+					console.log(data);
+
+					var htmlOffline = 
+					'<li class="collection-item avatar row">' +
+					'<img src="' + offline.logo + '" alt="" class="preview col s2">' +
+					'<div class="content-row col s5">' +
+					'<span id="title">' + offline.displayName + '</span>' +
+					'<p><b>Game: </b>' + offline.game + '</p>' +
+					'<p class="status truncate">' + offline.status + '</p>' +
+					'</div>' +
+					'<div class="content-row second-content col s5">' +
+					'<p><b>Followers: </b>' + offline.followers + '</p>' +
+					'<p><b>Language: </b>' + offline.language + '</p>' +
+					'<p><b>Views: </b>' + offline.views + '</p>' +
+					'<a href="' + offline.url + '" class="secondary-content"><i class="offline material-icons">play_circle_filled</i></a>' +
+					'</div>' +
+					'</li>';
+
+				$('.collection').append(htmlOffline);
+				}
 			},
 			error: function(){
-				alert('Error');
+				alert( 'Error' );
 			}
 		});
 	}
-console.log(stream.streamers);
-$.getJSON('https://api.twitch.tv/kraken/streams/summit1g?callback=?', function(data) {
-  console.log(data);
-});
 
-    for(var key in stream.streamers){
-    	ajaxCall(stream.streamers[key]);
-    }
-	
+
+
+	(function(){
+		for(var key in streamers){
+    		ajaxCall( 'streams/', streamers[key] );
+    		$('#streamers-list').append('<option value="' + streamers[key] + '"></option>');    		
+    	}
+	})();
 }
