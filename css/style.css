@@ -6,7 +6,50 @@
 	position: fixed;
     bottom: 20px;
 	text-align: right;
-	color: black;
+	color: white;
 	font-size: 17px;
 	margin-left: 40%;
 }
+
+.preview{
+	height: 150px;
+    display: inline-block;
+}
+
+.collection .collection-item.avatar{
+	padding-left: 10px;
+	margin-bottom: 20px;
+    border: none;
+}
+
+#title{
+	font-size: 30px;
+}
+
+.content-row{
+	margin-top: 10px;
+}
+
+.second-content{
+	margin-top: 40px;
+}
+
+.status{
+	padding-top: 25px;
+	font-size: 15px;
+}
+
+.offline{
+	color: red;
+	font-size: 120px;
+}
+
+.online{
+	color: green;
+	font-size: 120px;
+}
+
+.collection{
+	border: none;
+}
+
