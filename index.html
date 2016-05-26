@@ -15,13 +15,11 @@
 			<div class="nav-wrapper col s4">
 				<a href="#" class="brand-logo center">Twitch.tv</a>
 			</div>
-			<div class="input-field col s8">
-				<input list='streamers-list' id="add-stream" type="text" class="validate">
-				<datalist id="streamers-list">
-					
-				</datalist>
-				<label for="add-stream" id="add-stream-label"><i class="online material-icons">add_box</i></label>
-        	</div>
+			<form class="search input-field col s8">
+				<input id="add-stream" type="text" class="validate">
+					<ul class="results"></ul>
+					<label for="add-stream" id="add-stream-label"><i class="online material-icons">add_box</i></label>
+        	</form>
 		</nav>
 
 		<ul class="collection container-fluid">

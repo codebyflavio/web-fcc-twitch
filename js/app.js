@@ -86,15 +86,23 @@ var App = (function(){
 				//checks if the channel name contains the query
 				if(!channelName.toLowerCase().indexOf(query.toLowerCase())){
 					duplicate.push(channelName);
-					$('#streamers-list').empty();
-					console.log(duplicate);
+					$('.results').empty();
 					for(var i = 0; i < duplicate.length; i++){
-						$('#streamers-list').append('<option value="' + duplicate[i] + '"></option>');
+						// ADD SEARCH SUGESTIONS HTML HERE
+						$('.results').append('<li><a value="' + duplicate[i] + '" class="search-link">' + duplicate[i] + '</a></li>');
+
+						
 					}
 					
 				}
 				
 			}
+			$('.search-link').on('click', function(){
+							var searchValue = $(this)
+								.val($(this)
+								.text());
+							$('#add-stream').val(searchValue[0].innerHTML);
+						});
 		}
 
 		$.ajax({
@@ -112,6 +120,7 @@ var App = (function(){
 
 	var streamers = ['freecodecamp', 'summit1g', 'tsm_dyrus', 'flosd', 'wingsofdeath'];
 	var searchResults = [];
+
 	function init(){
 
 		(function ajax(){
@@ -119,13 +128,17 @@ var App = (function(){
 	    		ajaxCall( 'streams/', App.streamers[key] );}
 		})();
 
+		
+
 		$('#add-stream').keyup(function() {
-				$('#streamers-list').empty();
+				$('.results').empty();
 				setTimeout( function(){ 
 					ajaxSearch( $('#add-stream').val() ); 
-				}, 2000);
-			
+				}, 500);
 		});
+
+
+		
 	}
 
 	return{
@@ -133,8 +146,5 @@ var App = (function(){
 		streamers: streamers
 	};
 })();
-// $.getJSON('https://api.twitch.tv/kraken/search/channels?q=freecodecamp', function(data) {
-//   console.log(data);
-// });
 
 $(document).ready( App.start );
