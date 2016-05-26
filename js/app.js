@@ -74,16 +74,35 @@ var App = (function(){
 				}
 			});
 		}
-
+	var duplicate = [];
+	
 	function ajaxSearch( query ){
+
+		function renderSearch( data ){
+			duplicate.length = 0;
+			for(var key in data.channels){
+
+				var channelName = data.channels[key].display_name;
+				//checks if the channel name contains the query
+				if(!channelName.toLowerCase().indexOf(query.toLowerCase())){
+					duplicate.push(channelName);
+					$('#streamers-list').empty();
+					console.log(duplicate);
+					for(var i = 0; i < duplicate.length; i++){
+						$('#streamers-list').append('<option value="' + duplicate[i] + '"></option>');
+					}
+					
+				}
+				
+			}
+		}
+
 		$.ajax({
 			url: 'https://api.twitch.tv/kraken/search/channels?q=' + query,
 			dataType: 'jsonp',
 			type: 'POST',
 			success: function( data ){
-				for(var key in data.channels){
-					$('#streamers-list').append('<option value="' + data.channels[key].display_name + '"></option>');
-				}
+				renderSearch( data );
 			},
 			error: function() {
 				alert('Error with ', query);
@@ -101,8 +120,10 @@ var App = (function(){
 		})();
 
 		$('#add-stream').keyup(function() {
-				// $('.item-content').empty();
-				setTimeout( function(){ ajaxSearch( $('#add-stream').val() ); }, 500);
+				$('#streamers-list').empty();
+				setTimeout( function(){ 
+					ajaxSearch( $('#add-stream').val() ); 
+				}, 2000);
 			
 		});
 	}
@@ -112,8 +133,8 @@ var App = (function(){
 		streamers: streamers
 	};
 })();
-$.getJSON('https://api.twitch.tv/kraken/search/channels?q=freecodecamp', function(data) {
-  console.log(data);
-});
+// $.getJSON('https://api.twitch.tv/kraken/search/channels?q=freecodecamp', function(data) {
+//   console.log(data);
+// });
 
 $(document).ready( App.start );
