@@ -4,11 +4,15 @@
 
 .footer-copyright{
 	position: fixed;
-    bottom: 20px;
-	text-align: right;
+    bottom: 0px;
 	color: white;
 	font-size: 17px;
-	margin-left: 40%;
+	background-color: #4db6ac;
+	width: 100%;
+	text-align: center;
+	margin-top: 100px;
+	padding-bottom: 20px;
+	padding-top: 10px;
 }
 
 .preview{
@@ -39,14 +43,34 @@
 	font-size: 15px;
 }
 
-.offline{
-	color: red;
-	font-size: 120px;
+#close{
+	position: relative;
+    bottom: 110px;
+    left: 95%;
+    color: black;
 }
 
-.online{
-	color: green;
-	font-size: 120px;
+#close a{
+	position: relative;
+    bottom: 110px;
+    left: 95%;
+    color: black;
+}
+
+.offline{
+	color: red;
+    font-size: 92px;
+    position: relative;
+    top: 30px;
+    right: 20px;
+}
+
+.online {
+    color: green;
+    font-size: 92px;
+    position: relative;
+    top: 30px;
+    right: 20px;
 }
 
 .collection{
@@ -60,7 +84,13 @@
 #add-stream-label{
 	color: white;
 	border-bottom: 2px solid white;
-	width: 90%;
+	width: 500px;
+	cursor:pointer;
+	/*height: 0;*/
+}
+
+#add-label{
+	height: 0;
 }
 
 .search input {
@@ -135,3 +165,4 @@
     -o-box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 1px rgba(0, 0, 0, 0.08);
     box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 1px rgba(0, 0, 0, 0.08);
 }
+
