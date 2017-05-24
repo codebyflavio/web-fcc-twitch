@@ -1,0 +1,19 @@
+{
+  "name": "fcc-twitch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "public/js/app.js",
+  "scripts": {
+    "deploy": "firebase deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flaviocarvalho/FCC-Twitch.git"
+  },
+  "author": "Flavio Carvalho <hi@imflavio.com> (http://imflavio.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flaviocarvalho/FCC-Twitch/issues"
+  },
+  "homepage": "https://github.com/flaviocarvalho/FCC-Twitch#readme"
+}

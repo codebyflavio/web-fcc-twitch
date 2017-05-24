@@ -3,7 +3,8 @@ var App = (function(){
 	var duplicate = [];
 	var streamers = [];
 	var searchResults = [];
-	var getStreamsLocal = JSON.parse(localStorage.getItem("streams"));
+	// var getStreamsLocal = JSON.parse(localStorage.getItem("streams"));
+	var getStreamsLocal = ['freecodecamp', 'imaqtpie'];
 
 	function render(status, data){
 		if(status === 'online'){
@@ -48,10 +49,10 @@ var App = (function(){
 			var offline = {
 				logo: data.logo,
 				displayName: data.display_name,
-				game: data.game.toUpperCase(),
+				game: data.game ? data.game.toUpperCase() : '',
 				status: data.status,
 				followers: data.followers,
-				language: data.language.toUpperCase(),
+				language: data.language ? data.language.toUpperCase() : '',
 				views: data.views,
 				channelUrl: data.url
 			};
@@ -86,13 +87,13 @@ var App = (function(){
 	}
 	function ajaxCall( api, streamer ){
 			$.ajax({
-				url: 'https://api.twitch.tv/kraken/' + api + streamer + '?callback=?',
+				url: 'https://wind-bow.gomix.me/twitch-api/' + api + '/' + streamer + '?callback=?',
 	    		dataType: 'jsonp',
 	    		type: 'POST',
 				success: function( data ){
 					if(api === 'streams/'){
 						if(data.stream === null){
-							return ajaxCall( 'channels/', streamer);
+							return ajaxCall( 'channels', streamer);
 						}
 						render('online', data);
 					}else{
@@ -116,9 +117,7 @@ var App = (function(){
 					duplicate.push(channelName);
 					$('.results').empty();
 					for(var i = 0; i < duplicate.length; i++){
-						// if(streamers.forEach(indexOf(duplicate[i])){
 						$('.results').append('<li><a value="' + duplicate[i] + '" class="search-link">' + duplicate[i] + '</a></li>');
-						// }
 					}
 				}
 			}
@@ -146,10 +145,12 @@ var App = (function(){
 	function init(){
 		//render streams from the streamers array
 		$('#add-stream').keyup(function() {
-				setTimeout( function(){ 
-					ajaxSearch( $('#add-stream').val() ); 
-				}, 500);
-				$('.results').empty();
+	      alert('Twitch updated the api for this, imagine everything works just fine.');
+
+				// setTimeout( function(){
+				// 	ajaxSearch( $('#add-stream').val() );
+				// }, 500);
+				// $('.results').empty();
 		});
 
 		$('#add-stream-label').on('click', function(){
@@ -183,7 +184,6 @@ var App = (function(){
 				}
 				$(this).closest('li').remove();
 			});
-			console.log(streamers, 'streamers', getStreamsLocal, 'getStreamsLocal');
 			})();
 	}
 	return{
